@@ -1,0 +1,10 @@
+# source paper — not deployed
+*.pdf
+
+# unused duplicate of assets/framework.png (the page uses assets/)
+/framework.png
+
+# local tooling / editor / OS
+.claude/
+.vscode/
+.DS_Store

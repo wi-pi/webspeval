@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebSP-Eval: Evaluating Web Agents on Website Security and Privacy Tasks</title>
+  <meta name="description" content="WebSP-Eval is an evaluation framework measuring web-agent performance on website security and privacy tasks: 200 task instances across 28 websites, robust account/state management, and an automated MLLM judge ensemble." />
+  <meta property="og:title" content="WebSP-Eval: Evaluating Web Agents on Website Security and Privacy Tasks" />
+  <meta property="og:description" content="An evaluation framework for measuring web-agent performance on website security and privacy tasks. PETS 2026." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Set theme before paint to avoid a flash -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="topbar">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top">WebSP-Eval</a>
+      <div class="nav-right">
+        <a class="nav-link" href="#abstract">Abstract</a>
+        <a class="nav-link" href="#overview">Overview</a>
+        <a class="nav-link" href="#methodology">Methodology</a>
+        <a class="nav-link" href="#results">Results</a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark / light mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero" id="top">
+    <div class="wrap">
+      <h1 class="title">WebSP-Eval</h1>
+      <p class="tagline">Evaluating Web Agents on Website Security and Privacy Tasks</p>
+
+      <p class="authors">
+        <a href="mailto:viswanathanr@wisc.edu">Guruprasad Viswanathan Ramesh</a>,
+        <a href="mailto:anayak6@wisc.edu">Asmit Nayak</a>,
+        <a href="mailto:bsiddique@wisc.edu">Basieem Siddique</a>,
+        <a href="mailto:kfawaz@wisc.edu">Kassem Fawaz</a>
+      </p>
+      <p class="affil"><a href="https://wiscprivacy.com/" target="_blank" rel="noopener">WI-PI Lab</a> &middot; University of Wisconsin&ndash;Madison</p>
+      <p class="venue">Privacy Enhancing Technologies Symposium (PETS) 2026</p>
+
+      <div class="btn-row">
+        <a class="btn primary" href="https://arxiv.org/abs/2604.06367" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+          Paper (arXiv)
+        </a>
+        <a class="btn" href="https://github.com/wi-pi/webspeval_code" target="_blank" rel="noopener" id="github-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12a11.5 11.5 0 0 0 7.86 10.94c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.73-1.56-2.55-.29-5.23-1.27-5.23-5.67 0-1.25.45-2.27 1.19-3.07-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.17a11 11 0 0 1 5.8 0c2.2-1.48 3.17-1.17 3.17-1.17.63 1.59.23 2.76.11 3.05.74.8 1.19 1.82 1.19 3.07 0 4.41-2.69 5.38-5.25 5.66.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+          Code &amp; Data
+        </a>
+      </div>
+
+      <figure class="framework">
+        <img src="assets/framework.png" alt="The WebSP-Eval framework: Task Curation produces task instances with controlled initial states; Agent Instantiation authenticates a session, sets the desired initial state, and executes tasks with user agents; Automated Verification compares the agent trajectory against ground truth using an MLLM judge." />
+        <figcaption>Modules of the WebSP-Eval evaluation framework: 1)&nbsp;<em>Task Curation</em> &ndash; curation of a dataset consisting of website security and privacy tasks across websites. 2)&nbsp;<em>Agent Instantiation</em> &ndash; a novel web agent deployment supporting account and state management, utilizing an MLLM and a Selenium-driven backbone to execute actions. 3)&nbsp;<em>Automated Verification</em> &ndash; an automated Vision Language Model-based judge to assess agent failure across five categories.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <!-- ===================== ABSTRACT ===================== -->
+  <section id="abstract">
+    <div class="wrap abstract">
+      <p class="section-kicker k-abstract">Abstract</p>
+      <p>Web agents automate browser tasks, ranging from simple form completion to complex workflows like ordering groceries. While current benchmarks evaluate general-purpose performance (e.g., WebArena) or safety against malicious actions (e.g., SafeArena), no existing framework assesses an agent&rsquo;s ability to successfully execute user-facing <strong>website security and privacy tasks</strong>, such as managing cookie preferences, configuring privacy-sensitive account settings, or revoking inactive sessions.</p>
+      <p>To address this gap, we introduce <strong>WebSP-Eval</strong>, an evaluation framework for measuring web-agent performance on website security and privacy tasks. WebSP-Eval comprises (1) a manually crafted task dataset of <strong>200 task instances across 28 websites</strong>; (2) a robust agentic system supporting account and initial-state management across runs using a custom Google Chrome extension; and (3) an automated evaluator. We evaluate a total of 8 web-agent instantiations using state-of-the-art multimodal large language models, conducting a fine-grained analysis across websites, task categories, and UI elements. Our evaluation reveals that current models suffer from limited autonomous exploration capabilities to reliably solve website security and privacy tasks, and struggle with specific task categories and websites. Crucially, we identify <strong>stateful UI elements such as toggles and checkboxes</strong> as a primary reason for agent failure, failing at a rate of more than 45% in tasks containing these elements across many models.</p>
+    </div>
+  </section>
+
+  <!-- ===================== OVERVIEW ===================== -->
+  <section id="overview" class="alt">
+    <div class="wrap">
+      <p class="section-kicker k-overview">Overview</p>
+      <h2>Can web agents keep your accounts private and secure?</h2>
+      <p class="lead">Web users routinely make small but consequential security &amp; privacy decisions &mdash; managing cookies, tightening profile visibility, turning off ad personalization, or revoking old sessions. As web agents begin acting on our behalf, we ask whether they can make these decisions reliably. We study these <em>website security and privacy tasks</em> across nine categories:</p>
+      <ul class="chips">
+        <li>Account Security &amp; Access Control</li>
+        <li>Cookie &amp; Tracking Consent Management</li>
+        <li>Advertising &amp; Personalization Control</li>
+        <li>Notification &amp; Communication Preferences</li>
+        <li>Profile Visibility &amp; Customization</li>
+        <li>Social Safety &amp; Content Moderation</li>
+        <li>User Privacy &amp; Data Rights</li>
+        <li>Data &amp; Asset Management</li>
+        <li>UI/UX Preferences</li>
+      </ul>
+      <p>These tasks change a website&rsquo;s <strong>state</strong>, which lives on the server, so a faithful comparison requires every run to start from the same initial state <em>S<sub>0</sub></em> &mdash; a challenge that doesn&rsquo;t scale with fresh accounts on constantly changing live sites. <strong>WebSP-Eval</strong> addresses this through three modules &mdash; <strong>Task Curation</strong>, <strong>Agent Instantiation</strong>, and <strong>Automated Verification</strong> &mdash; detailed in the <a href="#methodology">methodology</a> below.</p>
+    </div>
+  </section>
+
+  <!-- ===================== METHODOLOGY ===================== -->
+  <section id="methodology">
+    <div class="wrap">
+      <p class="section-kicker k-method">Methodology</p>
+      <h2>How WebSP-Eval works</h2>
+      <p class="lead">WebSP-Eval is built from three modules, each handling one stage of an evaluation run: curating tasks with a defined initial state, instantiating and running the agent, and verifying the outcome.</p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="step">1</div>
+          <h3>Task Curation</h3>
+          <p>Starting from the Tranco top sites and WebVoyager, websites are categorized via Trellix TrustedSource, filtering out those needing PII, MFA, or biometric verification. Two authors draft instructions grounded in NCSC, NIST, and FTC guidance. Each task pairs a user query with a rigorously defined initial state <em>S<sub>0</sub></em> &mdash; binary settings get both ON and OFF states; multi-choice settings start from the least-private option. This yields 200 instances (138 distinct tasks) across 28 websites and 9 categories.</p>
+        </div>
+        <div class="card">
+          <div class="step">2</div>
+          <h3>Agent Instantiation</h3>
+          <p>Built on WebVoyager with a Selenium backbone, the system runs each instance fully automatically: <em>authenticate</em> &rarr; <em>initialize state S<sub>0</sub></em> &rarr; <em>execute</em>. A custom Chrome (Manifest V3) extension implements a record-and-replay mechanism with a deterministic <code>data-websp-index</code> and shadow-DOM&ndash;aware locators, so initial states stay reproducible even on highly dynamic pages. The action space is extended (scroll-to-end, scroll-within-popup, tab switching, shadow-DOM element detection) to mirror real user behavior.</p>
+        </div>
+        <div class="card">
+          <div class="step">3</div>
+          <h3>Automated Verification</h3>
+          <p>An MLLM-as-a-judge receives the user prompt, the agent&rsquo;s <em>entire</em> trajectory (actions + screenshots), and a manually annotated ground-truth action sequence, then returns a binary CORRECT / INCORRECT verdict with reasoning. The final judge is a majority-vote ensemble of Gemini-3.1-Pro, Claude-Opus-4.6, and GPT-5.2, reaching a <strong>96.0% F1</strong> and 95.5% agreement against human annotations.</p>
+        </div>
+      </div>
+
+      <!-- Initial-state demo (click-to-play) -->
+      <div class="state-demo">
+        <h3 class="demo-title">Setting Consistent Initial State</h3>
+        <p class="demo-lead">Replaying a recorded trace to enforce the initial state <em>S<sub>0</sub></em> on a Quora settings page. <strong>Click to play.</strong></p>
+
+        <figure class="framework state-figure">
+          <button class="gif-player" type="button" data-gif="assets/extension-demo.gif" aria-label="Play the Chrome extension demo (animated)">
+            <img class="gif-media" src="assets/extension-demo-poster.png" alt="The WebSP-Eval Chrome extension setting a website's initial state by replaying recorded toggle and checkbox actions on a Quora privacy and settings page." />
+            <span class="gif-overlay" aria-hidden="true">
+              <span class="gif-play-icon">&#9654;</span>
+              <span class="gif-play-label">Play demo</span>
+            </span>
+            <span class="gif-fallback" aria-hidden="true">Extension demo &mdash; coming soon</span>
+          </button>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== RESULTS ===================== -->
+  <section id="results">
+    <div class="wrap">
+      <p class="section-kicker k-results">Results</p>
+      <h2>What we found</h2>
+      <p class="lead">We instantiate the agent with eight backbone MLLMs and evaluate all 200 instances across four research questions, measuring success rate and failure rate (explicit mistakes plus timeouts / iteration-limit hits).</p>
+
+      <ul class="findings">
+        <li><span class="rq">RQ1 &mdash; Exploration.</span> Top-tier models do well (<strong>Gemini-3-Pro: 84.5% with navigation, 82.5% without</strong>), but forcing autonomous exploration degrades performance across the board. Gemini-2.5-Flash drops most (a 17.9% relative fall when navigation is removed). When a model succeeds on only one prompt variant, it is almost always the one <em>with</em> explicit navigation.</li>
+        <li><span class="rq">RQ2 &mdash; Websites &amp; categories.</span> Performance is highly sensitive to site-specific UI. Even the best models stumble on sites like Steam (7 of 8 models below 50%) and on categories like <strong>UI/UX Preferences</strong> and <strong>Profile Visibility &amp; Customization</strong>. Lower-ranked models occasionally win locally (e.g. Claude-Haiku-4.5 solves all of Coursera).</li>
+        <li><span class="rq">RQ3 &mdash; UI elements &amp; state.</span> Agents navigate links and buttons reliably but fail on <strong>stateful elements</strong>: Gemini-2.5-Flash fails 46.9% of toggle tasks. Models also show a strong bias to act even when the initial state already matches the target, succeeding far more often when a toggle starts ON than OFF.</li>
+        <li><span class="rq">RQ4 &mdash; Robustness.</span> Consistency is the real bottleneck. On the strict pass<sub>3</sub> metric (success on all three trials), the best models &mdash; Claude-Sonnet-4.5 and Gemini-2.5-Pro &mdash; clear only <strong>22&ndash;23%</strong> of tasks; the open-weight Gemma-3-27B reaches just 2%.</li>
+        <li><span class="rq">Failure analysis.</span> Manual review of failures surfaces five modes &mdash; incorrect navigation, state misunderstanding, hallucinated success, repeated actions, and partial completion. We also observed a <strong>potentially destructive failure</strong>: Gemini-2.5-Flash deactivated a Pinterest account when merely asked to sign out.</li>
+      </ul>
+
+      <div class="table-wrap">
+        <table>
+          <caption><strong>Table 1.</strong> Overall success out of 200 instances per backbone model (selected results). &ldquo;WithNav&rdquo; includes navigation hints in the prompt; &ldquo;W/oNav&rdquo; gives the task instruction only.</caption>
+          <thead>
+            <tr><th>Backbone model</th><th>WithNav &mdash; success</th><th>W/oNav &mdash; success</th></tr>
+          </thead>
+          <tbody>
+            <tr class="best"><td>Gemini-3-Pro-Preview</td><td>169</td><td>165</td></tr>
+            <tr><td>Gemini-2.5-Pro</td><td>131</td><td>122</td></tr>
+            <tr><td>Claude-Sonnet-4.5</td><td>117</td><td>122</td></tr>
+            <tr><td>Gemini-2.5-Flash</td><td>127</td><td>106</td></tr>
+            <tr><td>Claude-Haiku-4.5</td><td>117</td><td>106</td></tr>
+            <tr><td>GPT-5.1</td><td>108</td><td>88</td></tr>
+            <tr><td>GPT-5-Mini</td><td>91</td><td>87</td></tr>
+            <tr><td>Gemma-3-27B (open-weight)</td><td>50</td><td>40</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CITATION ===================== -->
+  <section id="citation" class="alt">
+    <div class="wrap">
+      <p class="section-kicker k-cite">Citation</p>
+      <h2>BibTeX</h2>
+      <div class="cite">
+        <button class="copy-btn" id="copy-bib" title="Copy BibTeX">Copy</button>
+<pre id="bibtex">@article{ramesh2026websp,
+  title={WebSP-Eval: Evaluating Web Agents on Website Security and Privacy Tasks},
+  author={Ramesh, Guruprasad Viswanathan and Nayak, Asmit and Siddique, Basieem and Fawaz, Kassem},
+  journal={arXiv preprint arXiv:2604.06367},
+  year={2026}
+}</pre>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p>WebSP-Eval &middot; University of Wisconsin&ndash;Madison &middot; PETS 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    var toggle = document.getElementById('theme-toggle');
+    toggle.addEventListener('click', function () {
+      var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      var next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+
+    // Copy BibTeX
+    var copyBtn = document.getElementById('copy-bib');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        var text = document.getElementById('bibtex').innerText;
+        navigator.clipboard.writeText(text).then(function () {
+          copyBtn.textContent = 'Copied!';
+          setTimeout(function () { copyBtn.textContent = 'Copy'; }, 1500);
+        });
+      });
+    }
+
+    // Click-to-play GIF demos: show a static poster, swap to the animated
+    // GIF only on click (keeps the page light and avoids autoplaying motion).
+    document.querySelectorAll('.gif-player').forEach(function (player) {
+      var img = player.querySelector('.gif-media');
+      var gif = player.getAttribute('data-gif');
+      var poster = img.getAttribute('src');
+      // If the poster can't load (asset not added yet), show the fallback.
+      img.addEventListener('error', function () {
+        if (img.getAttribute('src') === poster) player.classList.add('no-asset');
+      });
+      player.addEventListener('click', function () {
+        if (player.classList.contains('playing') || player.classList.contains('no-asset')) return;
+        img.src = gif;
+        player.classList.add('playing');
+        player.setAttribute('aria-label', 'Chrome extension demo, playing');
+      });
+    });
+  </script>
+
+</body>
+</html>

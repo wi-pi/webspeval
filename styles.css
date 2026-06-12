@@ -264,7 +264,14 @@ h2 {
 
 /* ---------- Overview ---------- */
 #overview .lead { margin-bottom: 4px; }
-#overview > .wrap > p:not(.lead):not(.section-kicker) { color: var(--ink-soft); font-size: 1.05rem; max-width: var(--measure); margin: 20px 0 0; }
+#overview > .wrap > p:not(.lead):not(.section-kicker):not(.overview-note) { color: var(--ink-soft); font-size: 1.05rem; max-width: var(--measure); margin: 20px 0 0; }
+
+.overview-note {
+  max-width: var(--measure); margin: 26px 0 0; padding: 14px 18px;
+  border-left: 4px solid var(--accent); background: var(--accent-tint);
+  border-radius: var(--radius-sm);
+  color: var(--ink); font-size: 1.05rem; line-height: 1.5;
+}
 
 .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 9px; padding: 0; margin: 18px 0 0; max-width: var(--measure); }
 .chips li {
